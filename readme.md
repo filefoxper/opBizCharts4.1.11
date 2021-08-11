@@ -4,7 +4,7 @@ bizcharts 正在被当作 highchart 的 react 图表替代库被许多玩家使�
 
 ## 原理
 
-使用 webpack module 的 rules 建立一个强行编译待优化库的 rule ，如果该库含有 es/esm 等模块化包，可以通过 webpack resolve 的 alias 别名功能，把引用别名修改至 es/esm 包，这样 webpack 可以在编译时的 tree shaking 就能把没用到的模块去掉了，如：
+使用 webpack module 的 rule 强行编译待优化库 ，如果该库含有 es/esm 等模块化包，可以通过 webpack resolve 的 alias 别名功能，把引用别名映射至 es/esm 包，这样 webpack 可以在编译时通过 tree shaking 把没用到的模块标记掉，如：
 
 ```javascript
 import { Chart, LineAdvance} from 'bizcharts';
@@ -29,7 +29,7 @@ webpack 编译时变成
 import { Chart, LineAdvance} from 'bizcharts/es';
 ```
 
-es 包中的模块就跟我们开发的模块差不多，一旦被编译进来，很容易被 webpack 自动去掉没被引用到的部分。我们可以通过在 module 里加 rule 很容易做到这点。
+es 包中的模块就跟我们开发的模块差不多，一旦被编译进来，很容易被 webpack shaking 掉没有引用部分。通过在 module 里加 rule 很容易做到这点。
 
 ```javascript
 {
@@ -58,9 +58,7 @@ es 包中的模块就跟我们开发的模块差不多，一旦被编译进来�
 
 ## 一、分析
 
-首先可以通过上述原理直接配置优化 `bizcharts` 包，然后使用 `webpack-bundle-analyzer` plugin 进行观察。通过观察可以发现 `bizcharts` 引入了 `@antv`，而且引用得比较混乱，有从 `@antv/xxx/lib` 中引用的，也有从 `@antv/xxx/esm` 中引用的。这时候，我们可以发现，体积该方案已经有成效了，只是成效比较低，只优化了几 kb 。
-
-那么接下来我们就要针对 `bizcharts` 引用 `@antv` 混乱的情况入手了。
+首先可以通过上述原理直接配置优化 `bizcharts` 包，然后使用 `webpack-bundle-analyzer` plugin 进行观察。通过观察可以发现 `bizcharts` 引入了 `@antv`，而且引用得比较混乱，有从 `@antv/xxx/lib` 中引用的，也有从 `@antv/xxx/esm` 中引用的。这时候，我们可以发现，体积优化策略已经初具成效，只是成效比较低，只优化了几 kb 。
 
 该步骤配置可参考 [webpack.biz.analyze.js](/webpack.biz.analyze.js)
 
@@ -82,11 +80,13 @@ npm run biz-analyze
 
 ![after](/analyze/only_bizcharts.png)
 
+那么接下来我们就要针对 `bizcharts` 引用 `@antv` 混乱的情况下手了。
+
 ## 二、针对引用继续优化
 
-处理 `bizcharts` 引用混乱的问题很简单粗暴，那就是我们既编译 `bizcharts` 又编译 `@antv`，并且在编译的过程中让 webpack 认为 `bizcharts` 的所有关于 `@antv` 的引用都是引用自 `@antv/xxx/esm` 包的。关于这两点通过采用类似上述的手法，依然很容易完成。
+处理 `bizcharts` 引用混乱的问题简单粗暴，那就是我们既编译 `bizcharts` 又编译 `@antv`，并且在编译的过程中让 webpack 认为 `bizcharts` 中所有关于 `@antv` 的引用都是引用自 `@antv/xxx/esm` 包的。关于这两点通过采用与上述类似的手法，依然很容易完成。
 
-通过 alias 把 `@antv/xxx/lib` 映射成 `@antv/xxx/esm`，为了完成这一步，我们可以通过人肉观察 node_modules 中被带入的 `@antv` 的内部结构，把它的目录一一配置进 alias ，也可以通过脚步自动组合出他的别名引用表。
+通过 alias 把 `@antv/xxx/lib` 映射成 `@antv/xxx/esm`，为了完成这一步，我们可以通过人肉观察 node_modules 中被带入的 `@antv` 的内部结构，把它的目录一一配置进 alias ，也可以通过脚本自动组合出他的别名引用表，assign 进 alias 配置。
 
 ```javascript
 const fs = require('fs');
@@ -105,7 +105,7 @@ module.exports = function select(rootPath) {
 }
 ```
 
-让我们把上面的工具用起来，并把生成好的 @antv 引用别名添加到 alias
+让我们把上面的工具用起来，并把生成好的 @antv 引用别名添加到 alias 映射对象中去
 
 ```javascript
 const antvSelect = require('./plugins/antv-selector.js');
@@ -216,5 +216,5 @@ npm run op-analyze
 
 ## 最后
 
-希望对大家的编译优化有一定的帮助，谢谢大家。
+希望对大家的编译优化有一定的帮助，谢谢大家参阅，也希望大家可以提出更好的建议，同时希望 bizcharts 库作者可以及时做出修改，让这个库更好用。
 
