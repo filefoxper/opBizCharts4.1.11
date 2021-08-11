@@ -17,6 +17,9 @@ module.exports = function (env) {
   const targetPath = pathBuilder.resolve(...outputParts);
   return {
     ...config,
+    entry: {
+      bundle: pathBuilder.resolve('src', 'index.tsx')
+    },
     externals: {},
     optimization: {
       // 开发环境舍弃 minimize 和 minimizer 压缩配置，以达到编译速度提升的效果
