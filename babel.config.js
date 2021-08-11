@@ -4,7 +4,7 @@ module.exports = (api) => {
     ['@babel/plugin-proposal-decorators', { legacy: true }],
     ['@babel/plugin-proposal-class-properties', { loose: true }]
   ];
-  api.cache(false);
+  api.cache(true);
   return {
         plugins: [
           ...defaultPlugins
