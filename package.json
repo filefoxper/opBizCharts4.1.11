@@ -1,0 +1,51 @@
+{
+  "private": true,
+  "name": "webview",
+  "version": "0.0.1",
+  "description": "this is a mobile app",
+  "scripts": {
+    "start": "webpack serve --config webpack.dev.js --env=output=./res/",
+    "build": "webpack --config webpack.build.js --env=partition --env=output=./dist",
+    "analyze": "webpack --config webpack.analyze.js --env=partition --env=output=./dist",
+    "biz-analyze": "webpack --config webpack.biz.analyze.js --env=partition --env=output=./dist",
+    "op-build": "webpack --config webpack.op.build.js --env=partition --env=output=./dist",
+    "op-analyze": "webpack --config webpack.op.analyze.js --env=partition --env=output=./dist"
+  },
+  "dependencies": {
+    "@types/react": "^16.14.13",
+    "@types/react-dom": "^16.9.14",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "bizcharts": "4.1.11"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/plugin-proposal-class-properties": "7.13.0",
+    "@babel/plugin-proposal-decorators": "7.13.5",
+    "@babel/plugin-transform-runtime": "7.13.10",
+    "@babel/preset-env": "7.13.12",
+    "@babel/preset-react": "7.13.13",
+    "@babel/preset-typescript": "7.13.0",
+    "@babel/runtime": "7.14.0",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.21",
+    "core-js": "3.12.1",
+    "css-loader": "5.2.5",
+    "file-loader": "5.1.0",
+    "html-webpack-plugin": "5.3.1",
+    "less": "4.1.1",
+    "less-loader": "6.2.0",
+    "regenerator-runtime": "0.13.5",
+    "style-loader": "1.3.0",
+    "tsconfig-paths-webpack-plugin": "3.5.1",
+    "typescript": "4.2.2",
+    "url-loader": "4.1.1",
+    "webpack": "5.31.2",
+    "webpack-bundle-analyzer": "4.4.2",
+    "webpack-cli": "4.6.0",
+    "webpack-dev-server": "3.11.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}
