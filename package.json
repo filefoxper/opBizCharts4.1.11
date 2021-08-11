@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "webview",
+  "name": "bizcharts-opt",
   "version": "0.0.1",
-  "description": "this is a mobile app",
+  "description": "this is a project for optimizing bizcharts build",
   "scripts": {
     "start": "webpack serve --config webpack.dev.js --env=output=./res/",
     "build": "webpack --config webpack.build.js --env=partition --env=output=./dist",
