@@ -197,7 +197,7 @@ npm start
 #### 优化前分析
 
 ```
-npm run biz-analyze
+npm run analyze
 ```
 
 #### 只优化 bizcharts 分析
