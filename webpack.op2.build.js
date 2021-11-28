@@ -32,11 +32,27 @@ module.exports = function (env) {
         },
         module: {
             rules: config.module.rules.concat([
-                // 通过 include 指定需要优化编译的包 bizcharts
+                // 通过 include 指定需要欺骗 webpack 为无副作用的 bizcharts/es/index.js
+                {
+                    test: /\.js$/,
+                    include:
+                        /(node_modules\/bizcharts\/es\/index.js)/,
+                    sideEffects: false,
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                cacheDirectory: true
+                            }
+                        }
+                    ]
+                },
+                // 通过 include 指定除去 index.js 外需要优化编译的 bizcharts 项
                 {
                     test: /\.js$/,
                     include:
                         /(node_modules\/bizcharts\/es)/,
+                    exclude: /(node_modules\/bizcharts\/es\/index.js)/,
                     use: [
                         {
                             loader: 'babel-loader',

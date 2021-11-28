@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "bizcharts-opt",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "this is a project for optimizing bizcharts build",
   "scripts": {
     "start": "webpack serve --config webpack.dev.js --env=output=./res/",
@@ -9,7 +9,8 @@
     "analyze": "webpack --config webpack.analyze.js --env=partition --env=output=./dist",
     "biz-analyze": "webpack --config webpack.biz.analyze.js --env=partition --env=output=./dist",
     "op-build": "webpack --config webpack.op.build.js --env=partition --env=output=./dist",
-    "op-analyze": "webpack --config webpack.op.analyze.js --env=partition --env=output=./dist"
+    "op-analyze": "webpack --config webpack.op.analyze.js --env=partition --env=output=./dist",
+    "op2-analyze": "webpack --config webpack.op2.analyze.js --env=partition --env=output=./dist"
   },
   "dependencies": {
     "@types/react": "^16.14.13",

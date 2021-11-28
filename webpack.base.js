@@ -22,6 +22,7 @@ module.exports = function (env, mode) {
       filename: '[name].[chunkhash].js'
     },
     optimization: {
+      usedExports: true,
       minimize: true,
       minimizer: [
         new TerserPlugin({
