@@ -6,7 +6,7 @@ bizcharts 作为当下比较流行的免费 react 图表库获得了众多使用
 
 ## 原理
 
-使用 webpack module 的 rules 建立一个强行编译待优化库的 rule ，如果该库含有 es/esm 等模块化包，可以通过 webpack resolve 的 alias 别名功能，把引用别名修改至 es/esm 包，这样 webpack + babel 可以在编译时按我们的浏览器需求提供相关的 polyfill 支持，如：
+使用 webpack module 的 rules 建立一个强行编译待优化库的 rule ，如果该库含有 es/esm 等模块化包，可以通过 webpack resolve 的 alias 别名功能，把引用映射至 es/esm 包，这样 webpack + babel 可以在编译时按我们的浏览器需求提供相关的 polyfill 支持，如：
 
 ```javascript
 import { Chart, LineAdvance} from 'bizcharts';
